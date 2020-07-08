@@ -1,23 +1,23 @@
 1 - $ docker-compose up --build -d
-2 - $ docker exec -it -u 1000:1000 env_php bash
-3 - $ composer create-project symfony/skeleton .
-4 - $ composer require messenger
-5 - $ composer require symfony/swiftmailer-bundle
-6 - $ composer require annotations
-7 - $ composer require symfony/twig-bundle
+2 - $ docker exec -it env_rabbitmq bash
+    $ rabbitmqctl add_user userapp userapp
+    $ rabbitmqctl set_user_tags userapp administrator
+    $ rabbitmqctl set_permissions -p / userapp ".*" ".*" ".*"
 
-8 - $ docker exec -it env_rabbitmq bash
- - $ rabbitmqctl add_user userapp userapp
- - $ rabbitmqctl set_user_tags userapp administrator
- - $ rabbitmqctl set_permissions -p / userapp ".*" ".*" ".*"
+3 - $ docker exec -it -u 1000:1000 env_php bash
+from scratch:
+    3.1 - $ composer create-project symfony/skeleton .
+    3.2 - $ composer require messenger
+    3.3 - $ composer require symfony/swiftmailer-bundle
+    3.4 - $ composer require annotations
+    3.5 - $ composer require symfony/twig-bundle
 
-9-
-/*
- * curl --header "Content-Type: application/json" \
-  --request POST \
-  --data '{"email":"toto@titis.com", "subject":"welcome to rabbit","body":"Hello mister, how are you, I would like to tell you welcome to our site"}' \
-  http://localhost:8000/emailsender
- * */
+4-
+curl --header "Content-Type: application/json" \
+--request POST \
+--data '{"email":"toto@titis.com", "subject":"welcome to rabbit","body":"Hello mister, how are you, I would like to tell you welcome to our site"}' \
+http://localhost:8000/emailsender
 
-10- $ bin/console messenger:consume async -vv
+5- $ php bin/console messenger:consume async -vv
+
 TODO Handle failures
