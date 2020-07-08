@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  webapp:
+    image: nginx:latest
+    ports:
+      - 8000:80
+    volumes:
+      - ../api:/api
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - php
+  php:
+    build:
+      context: ./php
+    volumes:
+      - ../api:/api
+    working_dir: /api
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
