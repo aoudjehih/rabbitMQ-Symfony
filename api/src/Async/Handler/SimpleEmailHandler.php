@@ -5,6 +5,7 @@ namespace App\Async\Handler;
 use App\Async\Message\SimpleEmail;
 use App\Service\EmailSenderManager;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Twig\Environment;
 
@@ -55,6 +56,11 @@ class SimpleEmailHandler implements MessageHandlerInterface
             'addressEmail' => $message->getEmailAddress(),
             'bodyContent' => $message->getEmailBody(),
         ]);
+
+        if (rand(0,1) == 1) {
+            // exception to avoid retrying
+            throw new UnrecoverableMessageHandlingException();
+        }
 
         $swiftMessage = (new \Swift_Message($message->getEmailSubject()))
             ->setFrom('symfony@rabbitmq.com')

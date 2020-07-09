@@ -11,6 +11,8 @@ from scratch:
     3.3 - $ composer require symfony/swiftmailer-bundle
     3.4 - $ composer require annotations
     3.5 - $ composer require symfony/twig-bundle
+    3.6 - $ composer require symfony/orm-pack
+    3.7 - $ composer require --dev symfony/maker-bundle
 
 4-
 curl --header "Content-Type: application/json" \
@@ -18,6 +20,8 @@ curl --header "Content-Type: application/json" \
 --data '{"email":"toto@titis.com", "subject":"welcome to rabbit","body":"Hello mister, how are you, I would like to tell you welcome to our site"}' \
 http://localhost:8000/emailsender
 
+# to consume all messages
 5- $ php bin/console messenger:consume async -vv
 
-TODO Handle failures
+# to see all messages in failure transport
+6- $ php bin/console messenger:failed:show

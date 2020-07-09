@@ -22,7 +22,18 @@ services:
       - 5672:5672
       - 15672:15672
 
+  mariadb:
+    image: mariadb
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: rabbitmq
+
   mailhog:
     image: mailhog/mailhog
     ports:
       - 8025:8025
+
+volumes:
+  mariadb-data:

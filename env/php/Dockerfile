@@ -11,3 +11,6 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
 RUN GOPATH=$HOME/go \
     PATH=$PATH:$GOROOT/bin:$GOPATH/bin \
     go get github.com/mailhog/mhsendmail && ln  ~/go/bin/mhsendmail /usr/bin/mhsendmail && echo "sendmail_path = /usr/bin/mhsendmail --smtp-addr mailhog:1025" > /usr/local/etc/php/conf.d/sendmail.ini
+
+# mysql modules
+RUN docker-php-ext-install mysqli pdo pdo_mysql
